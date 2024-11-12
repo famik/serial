@@ -1,3 +1,4 @@
+//go:build windows
 // +build windows
 
 package serial
@@ -87,6 +88,10 @@ func openPort(name string, baud int, databits byte, parity Parity, stopbits Stop
 	port.wo = wo
 
 	return port, nil
+}
+
+func (p *Port) Fd() uintptr {
+	return p.f.Fd()
 }
 
 func (p *Port) Close() error {

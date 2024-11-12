@@ -1,3 +1,4 @@
+//go:build linux
 // +build linux
 
 package serial
@@ -134,6 +135,10 @@ type Port struct {
 	f *os.File
 }
 
+func (p *Port) Fd() uintptr {
+	return p.f.Fd()
+}
+
 func (p *Port) Read(b []byte) (n int, err error) {
 	return p.f.Read(b)
 }
@@ -142,7 +147,7 @@ func (p *Port) Write(b []byte) (n int, err error) {
 	return p.f.Write(b)
 }
 
-// Discards data written to the port but not transmitted,
+// Flush Discards data written to the port but not transmitted,
 // or data received but not read
 func (p *Port) Flush() error {
 	const TCFLSH = 0x540B
